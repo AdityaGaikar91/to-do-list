@@ -2,6 +2,9 @@
 
 A fully functional To-Do List built with React and Vite.
 
+## Project Repo
+https://github.com/AdityaGaikar91/to-do-list
+
 ## Features
 - ✅ Add new tasks
 - ✅ Mark tasks as completed
