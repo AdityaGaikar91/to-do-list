@@ -1,22 +1,13 @@
-import React from 'react'
-import ToDoItem from './ToDoItem';
-
+import React from "react";
+import ToDoItem from "./ToDoItem";
 
 const ToDoList = ({ todos, onToggle, onDelete, onEdit }) => {
-  if (todos.length === 0) {
-    return (
-      <div className="text-center py-12 text-gray-400">
-        <p className="text-xl">No tasks yet. Add one to get started!</p>
-      </div>
-    );
-  }
-
   return (
-    <ul className="space-y-3">
-      {todos.map((todo) => (
+    <ul className="space-y-4">
+      {todos.map((t) => (
         <ToDoItem
-          key={todo.id}
-          todo={todo}
+          key={t.id}
+          todo={t}
           onToggle={onToggle}
           onDelete={onDelete}
           onEdit={onEdit}
@@ -26,6 +17,4 @@ const ToDoList = ({ todos, onToggle, onDelete, onEdit }) => {
   );
 };
 
-
-
-export default ToDoList
+export default ToDoList;

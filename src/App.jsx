@@ -1,82 +1,78 @@
-import React, { useState } from 'react'
-import Header from './components/Header';
-import ToDoList from './components/ToDoList';
+import React, { useState } from "react";
+import Header from "./components/Header";
+import ToDoList from "./components/ToDoList";
 
 const App = () => {
   const [todos, setTodos] = useState([
-    { id: 1, text: 'Complete React assignment', completed: false },
-    { id: 2, text: 'Study for exams', completed: false },
-    { id: 3, text: 'Build portfolio website', completed: true }
+    { id: 1, text: "Complete React assignment", completed: false },
+    { id: 2, text: "Study for exams", completed: false },
+    { id: 3, text: "Build portfolio website", completed: false },
   ]);
 
-  // Add new todo
   const addTodo = (text) => {
-    const newTodo = {
-      id: Date.now(),
-      text: text,
-      completed: false
-    };
-    setTodos([newTodo, ...todos]);
+    setTodos([{ id: Date.now(), text, completed: false }, ...todos]);
   };
 
-  // Toggle todo completion
   const toggleTodo = (id) => {
     setTodos(
-      todos.map((todo) =>
-        todo.id === id ? { ...todo, completed: !todo.completed } : todo
+      todos.map((t) =>
+        t.id === id ? { ...t, completed: !t.completed } : t
       )
     );
   };
 
-  // Delete todo
   const deleteTodo = (id) => {
-    setTodos(todos.filter((todo) => todo.id !== id));
+    setTodos(todos.filter((t) => t.id !== id));
   };
 
-  // Edit todo
   const editTodo = (id, newText) => {
     setTodos(
-      todos.map((todo) =>
-        todo.id === id ? { ...todo, text: newText } : todo
+      todos.map((t) =>
+        t.id === id ? { ...t, text: newText } : t
       )
     );
   };
 
-  const completedCount = todos.filter((todo) => todo.completed).length;
-  const totalCount = todos.length;
+  const completed = todos.filter((t) => t.completed).length;
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-gray-50 to-gray-100">
+    <div className="min-h-screen bg-gradient-to-br from-gray-100 to-gray-200 flex flex-col font-sans text-gray-900">
       <Header onAdd={addTodo} />
-      
-      <main className="max-w-4xl mx-auto p-6">
-        {/* Stats */}
-        <div className="mb-6 flex gap-4 justify-center">
-          <div className="bg-white px-6 py-3 rounded-lg shadow-md">
-            <span className="text-gray-600">Total Tasks: </span>
-            <span className="font-bold text-purple-600">{totalCount}</span>
+
+      <main className="flex-1 max-w-3xl w-full px-6 mx-auto pt-48 pb-12">
+        <div className="grid grid-cols-3 gap-6 mb-10">
+          <div className="stat-card">
+            <p className="text-gray-500 text-sm font-medium uppercase tracking-wider">Total Tasks</p>
+            <h2 className="text-3xl font-bold text-purple-600 mt-1">{todos.length}</h2>
           </div>
-          <div className="bg-white px-6 py-3 rounded-lg shadow-md">
-            <span className="text-gray-600">Completed: </span>
-            <span className="font-bold text-green-600">{completedCount}</span>
+
+          <div className="stat-card">
+            <p className="text-gray-500 text-sm font-medium uppercase tracking-wider">Completed</p>
+            <h2 className="text-3xl font-bold text-green-500 mt-1">{completed}</h2>
           </div>
-          <div className="bg-white px-6 py-3 rounded-lg shadow-md">
-            <span className="text-gray-600">Remaining: </span>
-            <span className="font-bold text-orange-600">{totalCount - completedCount}</span>
+
+          <div className="stat-card">
+            <p className="text-gray-500 text-sm font-medium uppercase tracking-wider">Remaining</p>
+            <h2 className="text-3xl font-bold text-orange-500 mt-1">{todos.length - completed}</h2>
           </div>
         </div>
 
-        {/* Todo List */}
-        <ToDoList
-          todos={todos}
-          onToggle={toggleTodo}
-          onDelete={deleteTodo}
-          onEdit={editTodo}
-        />
+        <div className="glass-wrapper p-8 rounded-3xl shadow-2xl mb-8 min-h-[300px]">
+          {todos.length === 0 ? (
+            <div className="flex flex-col items-center justify-center h-full py-12 text-center">
+              <div className="w-16 h-16 bg-purple-100 rounded-full flex items-center justify-center mb-4">
+                <span className="text-2xl">📝</span>
+              </div>
+              <p className="text-xl text-gray-500 font-medium">No tasks yet</p>
+              <p className="text-gray-400 mt-2">Add a task above to get started!</p>
+            </div>
+          ) : (
+            <ToDoList todos={todos} onToggle={toggleTodo} onDelete={deleteTodo} onEdit={editTodo} />
+          )}
+        </div>
       </main>
     </div>
   );
 };
 
 export default App;
-
